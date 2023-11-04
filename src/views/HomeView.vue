@@ -1,9 +1,14 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import { ref } from 'vue'
+import { products, created } from "../composables/productsModal";
+import ProductList from "../components/ProductList.vue";
+
+created();
+
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <ProductList :products="products" />
   </main>
 </template>
