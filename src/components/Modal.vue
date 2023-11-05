@@ -1,9 +1,9 @@
 <script lang="ts">
 import Tabs from "./Tabs.vue";
 import Tab from "./Tab.vue";
-import { ref } from "vue";
+import { defineComponent, ref } from "vue";
 
-export default {
+export default defineComponent({
   name: "ModalViewer",
   components: {
     Tabs,
@@ -14,9 +14,14 @@ export default {
       currentPriceLocal: this.currentPrice,
       currentSizeLocal: this.currentSize,
       currentColorLocal: this.currentColor,
+      // slides: this.product,
+      currentIndex: 0,
+      selectedSizeLocalIndex: null,
+      selectedColorLocalIndex: null,
     };
   },
   methods: {
+
     close() {
       this.$emit("close");
     },
@@ -26,11 +31,45 @@ export default {
         " " +
         this.product.prices[index].currencyCode;
       this.currentColorLocal = this.product.colors[index].label + "";
+      this.goToSlide(index);
+      this.selectedColorLocalIndex = index;
+      this.reInitializeColorAndSize()
     },
     onClickOfSize(index: number) {
       this.currentSizeLocal = this.product.sizes[index].label + "";
+      this.selectedSizeLocalIndex = index;
+      this.reInitializeColorAndSize()
     },
+    goToSlide(index) {
+      this.currentIndex = index;
+    },
+    reInitializeColorAndSize() {
+      const colorsDiv = document.getElementById('colors');
+      const sizesDiv = document.getElementById('sizes');
+      const colors = colorsDiv?.querySelectorAll('.item');
+      const sizes = sizesDiv?.querySelectorAll('.item');
+
+      colors?.forEach((color, index) => {
+        color.classList.remove('focus-custom');
+      });
+      if(this.selectedColorLocalIndex !== null){
+        colors[this.selectedColorLocalIndex].classList.add('focus-custom');
+      }
+
+      sizes?.forEach((size, index) => {
+        size.classList.remove('focus-custom');
+      });
+      if(this.selectedSizeLocalIndex !== null){
+        sizes[this.selectedSizeLocalIndex]?.classList.add('focus-custom');
+      }
+    }
   },
+  mounted: function() {
+    setTimeout(() => {
+      this.onClickOfColor(0);
+    }, 10);
+  },
+
   props: {
     product: {
       required: true,
@@ -46,7 +85,8 @@ export default {
       type: String,
     },
   },
-};
+});
+
 </script>
 
 <template>
@@ -57,32 +97,16 @@ export default {
         <div class="overflow-y-auto max-h-[70vh]">
           <div class="flex gap-4 w-full p-6">
             <div class="w-1/2">
-              <!-- <img
-                class="w-full h-full"
-                height="400"
-                src="https://media.soliver.com/i/soliver/2133148.63A3_front?bg=rgb(239,239,239)&qlt=default&fmt=auto&w=1192"
-              /> -->
-              <div id="indicators-carousel" class="relative w-full" data-carousel="static">
-                <!-- Carousel wrapper -->
-                <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
-                  <!-- Item 1 -->
-                  <div class="duration-700 ease-in-out" data-carousel-item="active">
-                    <img class="w-full h-full" height="400"
-                      src="https://media.soliver.com/i/soliver/2133148.63A3_front?bg=rgb(239,239,239)&qlt=default&fmt=auto&w=1192" />
-                  </div>
+              <!-- <img class="w-full h-full" height="400"
+                src="https://media.soliver.com/i/soliver/2133148.63A3_front?bg=rgb(239,239,239)&qlt=default&fmt=auto&w=1192" /> -->
+              <div class="carousel">
+                <div class="slide" v-for="(item, index) in this.product.gallery" :key="index"
+                  v-show="index === currentIndex">
+                  <img :src="item.src" :alt="item.alt" :title="item.title" />
                 </div>
-                <!-- Slider indicators -->
-                <div class="absolute z-30 flex space-x-3 -translate-x-1/2 bottom-5 left-1/2">
-                  <button type="button" class="w-2 h-2 rounded-full bg-slate-300" aria-current="true" aria-label="Slide 1"
-                    data-carousel-slide-to="0"></button>
-                  <button type="button" class="w-2 h-2 rounded-full bg-slate-300" aria-current="false" aria-label="Slide 2"
-                    data-carousel-slide-to="1"></button>
-                  <button type="button" class="w-2 h-2 rounded-full bg-slate-300" aria-current="false" aria-label="Slide 3"
-                    data-carousel-slide-to="2"></button>
-                  <button type="button" class="w-2 h-2 rounded-full bg-slate-300" aria-current="false" aria-label="Slide 4"
-                    data-carousel-slide-to="3"></button>
-                  <button type="button" class="w-2 h-2 rounded-full bg-slate-300" aria-current="false" aria-label="Slide 5"
-                    data-carousel-slide-to="4"></button>
+                <div class="controls">
+                  <span class="circle" v-for="(item, index) in this.product.gallery" :key="index"
+                    @click="goToSlide(index)" :class="{ active: index === currentIndex }"></span>
                 </div>
               </div>
             </div>
@@ -96,13 +120,13 @@ export default {
               </div>
 
               <div class="w-full border-t" />
-              <div class="p-2">
+              <div class="p-2 group">
                 <p class="mb-2">
                   Color: <span class="font-bold">{{ currentColorLocal }}</span>
                 </p>
-                <div class="flex gap-2">
+                <div class="flex gap-2" id="colors">
                   <button
-                    class="border border-gray-100 hover:border-black rounded-full w-10 h-10 overflow-hidden bg-gray-100 focus:ring- focus:ring-black-500"
+                    class="item border border-gray-100 hover:border-black rounded-full w-10 h-10 overflow-hidden"
                     v-for="(color, index) in product.colors" :key="color.value" @click="onClickOfColor(index)">
                     <img class="w-full h-full object-contain object-center" v-bind:src="color.swatchImagesLinks.flat" />
                   </button>
@@ -111,12 +135,13 @@ export default {
 
               <div class="w-full border-b" />
 
-              <div class="p-2">
+              <div class="p-2 group">
                 <p class="mb-2">
                   Size: <span class="font-bold"> {{ currentSizeLocal }}</span>
                 </p>
-                <div class="flex gap-2 flex-wrap text-center text-xs">
-                  <button class="border border-gray-100 hover:border-black w-10 py-1 px-2 bg-gray-100 rounded-xl"
+                <div class="flex gap-2 flex-wrap text-center text-xs " id="sizes">
+                  <button
+                    class="item border border-gray-100 hover:border-black w-10 py-1 px-2 bg-gray-100 rounded-xl"
                     v-for="(size, index) in product.sizes" :key="size.value" @click="onClickOfSize(index)">
                     {{ size.label }}
                   </button>
@@ -162,5 +187,49 @@ export default {
         </div>
       </div>
     </div>
+
   </div>
 </template>
+
+
+<style scoped>
+.carousel {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* .slide {
+  display: none;
+} */
+
+.slide img {
+  width: 100%;
+  height: auto;
+}
+
+.controls {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.circle {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: #888;
+  border-radius: 50%;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.circle.active {
+  background-color: #333;
+}
+
+.focus-custom {
+  outline: 2px solid black;
+}
+</style>
