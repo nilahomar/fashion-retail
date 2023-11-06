@@ -14,10 +14,11 @@ export default defineComponent({
       currentPriceLocal: this.currentPrice,
       currentSizeLocal: this.currentSize,
       currentColorLocal: this.currentColor,
+      currentImageSrc: "",
       // slides: this.product,
       currentIndex: 0,
       selectedSizeLocalIndex: null,
-      selectedColorLocalIndex: null,
+      selectedColorLocalIndex: null
     };
   },
   methods: {
@@ -33,12 +34,12 @@ export default defineComponent({
       this.currentColorLocal = this.product.colors[index].label + "";
       this.goToSlide(index);
       this.selectedColorLocalIndex = index;
-      this.reInitializeColorAndSize()
+      this.reInitializeColorAndSize();
     },
     onClickOfSize(index: number) {
       this.currentSizeLocal = this.product.sizes[index].label + "";
       this.selectedSizeLocalIndex = index;
-      this.reInitializeColorAndSize()
+      this.reInitializeColorAndSize();
     },
     goToSlide(index) {
       this.currentIndex = index;
@@ -52,19 +53,22 @@ export default defineComponent({
       colors?.forEach((color, index) => {
         color.classList.remove('focus-custom');
       });
-      if(this.selectedColorLocalIndex !== null){
+      if (this.selectedColorLocalIndex !== null) {
         colors[this.selectedColorLocalIndex].classList.add('focus-custom');
       }
 
       sizes?.forEach((size, index) => {
         size.classList.remove('focus-custom');
       });
-      if(this.selectedSizeLocalIndex !== null){
+      if (this.selectedSizeLocalIndex !== null) {
         sizes[this.selectedSizeLocalIndex]?.classList.add('focus-custom');
       }
+
+      this.currentImageSrc = this.product.gallery[this.currentIndex].src;
+
     }
   },
-  mounted: function() {
+  mounted: function () {
     setTimeout(() => {
       this.onClickOfColor(0);
     }, 10);
@@ -125,8 +129,7 @@ export default defineComponent({
                   Color: <span class="font-bold">{{ currentColorLocal }}</span>
                 </p>
                 <div class="flex gap-2" id="colors">
-                  <button
-                    class="item border border-gray-100 hover:border-black rounded-full w-10 h-10 overflow-hidden"
+                  <button class="item border border-gray-100 hover:border-black rounded-full w-10 h-10 overflow-hidden"
                     v-for="(color, index) in product.colors" :key="color.value" @click="onClickOfColor(index)">
                     <img class="w-full h-full object-contain object-center" v-bind:src="color.swatchImagesLinks.flat" />
                   </button>
@@ -140,8 +143,7 @@ export default defineComponent({
                   Size: <span class="font-bold"> {{ currentSizeLocal }}</span>
                 </p>
                 <div class="flex gap-2 flex-wrap text-center text-xs " id="sizes">
-                  <button
-                    class="item border border-gray-100 hover:border-black w-10 py-1 px-2 bg-gray-100 rounded-xl"
+                  <button class="item border border-gray-100 hover:border-black w-10 py-1 px-2 bg-gray-100 rounded-xl"
                     v-for="(size, index) in product.sizes" :key="size.value" @click="onClickOfSize(index)">
                     {{ size.label }}
                   </button>
@@ -149,34 +151,40 @@ export default defineComponent({
               </div>
             </div>
           </div>
-          <div class="bg-neutral-100 w-full text-left p-6 text-xs">
-            <Tabs>
-              <Tab title="Details">
-                <div>
-                  <p class="font-bold mb-2">Product Details</p>
-                  <div v-html="product.description" />
-                </div>
-              </Tab>
-              <Tab title="Fit">
-                <p class="font-bold">Fit</p>
-                <div v-html="product.fitDescription" />
-              </Tab>
-              <Tab title="Material & Care instructions">
-                <div class="flex justify-between mb-4 max-w-md">
-                  <div v-html="product.materialDescription" />
-                </div>
-                <div class="w-full border-t" />
-                <div class="mt-4">
-                  <p class="font-bold mb-2">Care instructions</p>
-                  <div class="flex justify-between max-w-md">
-                    <div v-html="product.careInstructions" />
+          <div class="bg-neutral-100 w-full text-left p-6 text-xs flex">
+            <div class="flex-1 w-64">
+              <Tabs>
+                <Tab title="Details">
+                  <div>
+                    <p class="font-bold mb-2">Product Details</p>
+                    <div v-html="product.description" />
                   </div>
-                </div>
-              </Tab>
-              <Tab title="Sustainability">
-                <div v-html="product.sustainabilityInstructions" />
-              </Tab>
-            </Tabs>
+                </Tab>
+                <Tab title="Fit">
+                  <p class="font-bold">Fit</p>
+                  <div v-html="product.fitDescription" />
+                </Tab>
+                <Tab title="Material & Care instructions">
+                  <div class="flex justify-between mb-4 max-w-md">
+                    <div v-html="product.materialDescription" />
+                  </div>
+                  <div class="w-full border-t" />
+                  <div class="mt-4">
+                    <p class="font-bold mb-2">Care instructions</p>
+                    <div class="flex justify-between max-w-md">
+                      <div v-html="product.careInstructions" />
+                    </div>
+                  </div>
+                </Tab>
+                <Tab title="Sustainability">
+                  <div v-html="product.sustainabilityInstructions" />
+                </Tab>
+              </Tabs>
+            </div>
+
+            <div>
+              <img :src="currentImageSrc" class="flex-1 w-36" />
+            </div>
           </div>
         </div>
         <div class="bg-white p-2">
