@@ -18,7 +18,7 @@ export default defineComponent({
       // slides: this.product,
       currentIndex: 0,
       selectedSizeLocalIndex: null,
-      selectedColorLocalIndex: null
+      selectedColorLocalIndex: null,
     };
   },
   methods: {
@@ -45,27 +45,7 @@ export default defineComponent({
       this.currentIndex = index;
     },
     reInitializeColorAndSize() {
-      const colorsDiv = document.getElementById('colors');
-      const sizesDiv = document.getElementById('sizes');
-      const colors = colorsDiv?.querySelectorAll('.item');
-      const sizes = sizesDiv?.querySelectorAll('.item');
-
-      colors?.forEach((color, index) => {
-        color.classList.remove('focus-custom');
-      });
-      if (this.selectedColorLocalIndex !== null) {
-        colors[this.selectedColorLocalIndex].classList.add('focus-custom');
-      }
-
-      sizes?.forEach((size, index) => {
-        size.classList.remove('focus-custom');
-      });
-      if (this.selectedSizeLocalIndex !== null) {
-        sizes[this.selectedSizeLocalIndex]?.classList.add('focus-custom');
-      }
-
       this.currentImageSrc = this.product.gallery[this.currentIndex].src;
-
     }
   },
   mounted: function () {
@@ -101,8 +81,6 @@ export default defineComponent({
         <div class="overflow-y-auto max-h-[70vh]">
           <div class="flex gap-4 w-full p-6">
             <div class="w-1/2">
-              <!-- <img class="w-full h-full" height="400"
-                src="https://media.soliver.com/i/soliver/2133148.63A3_front?bg=rgb(239,239,239)&qlt=default&fmt=auto&w=1192" /> -->
               <div class="carousel">
                 <div class="slide" v-for="(item, index) in this.product.gallery" :key="index"
                   v-show="index === currentIndex">
@@ -132,7 +110,8 @@ export default defineComponent({
                 </p>
                 <div class="flex gap-2" id="colors">
                   <button class="item border border-gray-100 hover:border-black rounded-full w-10 h-10 overflow-hidden"
-                    v-for="(color, index) in product.colors" :key="color.value" @click="onClickOfColor(index)">
+                    v-for="(color, index) in product.colors" :key="color.value"
+                    :class="{ 'focus-custom': index === selectedColorLocalIndex }" @click="onClickOfColor(index)">
                     <img class="w-full h-full object-contain object-center" v-bind:src="color.swatchImagesLinks.flat" />
                   </button>
                 </div>
@@ -144,9 +123,10 @@ export default defineComponent({
                 <p class="mb-2">
                   Size: <span class="font-bold"> {{ currentSizeLocal }}</span>
                 </p>
-                <div class="flex gap-2 flex-wrap text-center text-xs " id="sizes">
-                  <button class="item border border-gray-100 hover:border-black w-10 py-1 px-2 bg-gray-100 rounded-xl"
-                    v-for="(size, index) in product.sizes" :key="size.value" @click="onClickOfSize(index)">
+                <div class="item flex gap-2 flex-wrap text-center text-xs " id="sizes">
+                  <button class="border border-gray-100 hover:border-black w-10 py-1 px-2 bg-gray-100 rounded-xl"
+                    v-for="(size, index) in product.sizes" :key="size.value"
+                    :class="{ 'focus-custom': index === selectedSizeLocalIndex }" @click="onClickOfSize(index)">
                     {{ size.label }}
                   </button>
                 </div>
@@ -195,7 +175,7 @@ export default defineComponent({
             class="flex ml-auto cursor-pointer border border-transparent px-8 py-2 bg-black text-base font-medium text-white focus:outline-none gap-6">
             Add to cart
 
-          <img src="../assets/images/shopping-bag.png" alt="cart-icon">
+            <img src="../assets/images/shopping-bag.png" alt="cart-icon">
           </button>
         </div>
       </div>
@@ -243,6 +223,6 @@ export default defineComponent({
 }
 
 .focus-custom {
-  outline: 2px solid black;
+  outline: 1px solid black;
 }
 </style>
