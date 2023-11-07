@@ -1,37 +1,25 @@
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: "Product",
+  name: 'Product',
   props: {
     product: {
       type: Object,
-      required: true,
-    },
-  },
-});
+      required: true
+    }
+  }
+})
 </script>
 
 <template>
   <div class="w-full max-w-sm mx-auto overflow-hidden relative">
     <div>
-      <img
-        class="object-cover object-top flex shrink-0 w-full h-72 xl:h-80"
-        :src="
-          product.variations[0]?.gallery[0]?.src +
-          '?bg=rgb(239,239,239)&qlt=default&fmt=auto&w=648'
-        "
-        :alt="product.variations[0]?.gallery[0]?.alt"
-      />
-      <div
-        class="inline-flex flex-col gap-4 items-start absolute bottom-2 left-0"
-      >
-        <span
-          class="p-1 bg-white text-xs"
-          :class="{ 'bg-green-700 text-white': badge.type === 'SUSTAINABLE' }"
-          v-for="badge in product.badges"
-          :key="badge.type"
-        >
+      <img class="object-cover object-top flex shrink-0 w-full h-72 xl:h-80" :src="product.variations[0]?.gallery[0]?.src + '?bg=rgb(239,239,239)&qlt=default&fmt=auto&w=648'
+        " :alt="product.variations[0]?.gallery[0]?.alt" />
+      <div class="inline-flex flex-col gap-4 items-start absolute bottom-2 left-0">
+        <span class="p-1 bg-white text-xs font-medium" :class="{ 'bg-green-700 text-red': badge.type === 'SUSTAINABLE' }"
+          v-for="badge in product.badges" :key="badge.type">
           {{ badge.type }}
         </span>
       </div>

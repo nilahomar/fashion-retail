@@ -119,8 +119,10 @@ export default defineComponent({
               <div class="p-2">
                 <p class="font-bold mb-2">{{ product.name }}</p>
                 <h1 class="mb-4">{{ product.category }}</h1>
-                <p class="mb-2 font-bold uppercase">{{ currentPriceLocal }}</p>
-                <!-- <img src="../components/svg/s-oliver-logo.vue" alt="logo"> -->
+                <div class="flex justify-between items-center">
+                  <p class="mb-2 font-bold uppercase">{{ currentPriceLocal }}</p>
+                  <img src="../assets/images/s-oliver-logo.png" alt="logo" class="w-10">
+                </div>
               </div>
 
               <div class="w-full border-t" />
@@ -183,14 +185,17 @@ export default defineComponent({
             </div>
 
             <div>
-              <img :src="currentImageSrc" class="flex-1 w-36" />
+              <img :src="currentImageSrc"
+                class="flex-1 w-36 hover:scale-125 transition-all duration-500 cursor-pointer" />
             </div>
           </div>
         </div>
         <div class="bg-white p-2">
           <button type="button"
-            class="flex ml-auto cursor-pointer border border-transparent px-8 py-2 bg-black text-base font-medium text-white focus:outline-none">
+            class="flex ml-auto cursor-pointer border border-transparent px-8 py-2 bg-black text-base font-medium text-white focus:outline-none gap-6">
             Add to cart
+
+          <img src="../assets/images/shopping-bag.png" alt="cart-icon">
           </button>
         </div>
       </div>
