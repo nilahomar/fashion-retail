@@ -1,27 +1,23 @@
-# soliver
+# A Fashion retail project
 
-This template should help get you started developing with Vue 3 in Vite.
+This project is created with templating from @Vue official release.
 
-## Recommended IDE Setup
+Below functionalities are enabled
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+  - Vue
+  - Typescript
+  - Pinia
+  - Vitest
 
-## Type Support for `.vue` Imports in TS
+## Local development
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+The application requires a mock-api to get going with [dummy data](./mockoon/data.json) downloaded from the API.
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+Download and install the desktop mock API program Mockoon from https://mockoon.com/download/
 
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+The data file [data.json](./mockoon/data.json) is exported from a running mockoon environment. So there is no need to configure the application to get started.
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
+Run below commands to run the application.
 
 ```sh
 npm install
@@ -33,14 +29,16 @@ npm install
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+If you see CORS error while accessing the page, please follow the [documentation](https://mockoon.com/docs/latest/server-configuration/cors/) to disable it in dev env and allow
+
+`Access-Control-Allow-Origin: *` in the Headers in Mockoon settings
+
+### Tests
 
 ```sh
-npm run build
+npm run test:unit
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+## Docker
 
-```sh
-npm run lint
-```
+ToDo

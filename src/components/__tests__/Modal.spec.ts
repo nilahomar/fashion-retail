@@ -96,7 +96,7 @@ describe('Modal', () => {
   });
 
   it('render Updated Color', async () => {
-    const wrapper = mount(modal, { props: { product: product, currentPrice: '10', currentColor: ""}})
+    const wrapper = mount(modal, { props: { product: product, currentPrice: '10', currentColor: "" } })
     const lastElement = wrapper.findAll('.color-item')[1]
 
     await lastElement.trigger('click')
@@ -106,7 +106,7 @@ describe('Modal', () => {
   });
 
   it('render Updated Size', async () => {
-    const wrapper = mount(modal, { props: { product: product, currentPrice: '10', currentSize: ""}})
+    const wrapper = mount(modal, { props: { product: product, currentPrice: '10', currentSize: "" } })
     const lastElement = wrapper.findAll('.size-item')[1]
 
     await lastElement.trigger('click')
@@ -114,11 +114,4 @@ describe('Modal', () => {
     const sizeElement = wrapper.find('p.size')
     expect(sizeElement.text()).contains("Size: M")
   });
-
-  it('changes the current image when goToSlide is called', async () => {
-    const wrapper = mount(modal, { props: { product: product, currentPrice: '10', currentSize: ""}})
-
-
-  });
-
 })

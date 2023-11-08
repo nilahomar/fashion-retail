@@ -1,8 +1,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
+// Render individual product
+
 export default defineComponent({
-  name: 'Product',
+  name: 'ProductModal',
   props: {
     product: {
       type: Object,

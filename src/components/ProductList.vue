@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { markRaw } from "vue";
 import { useModal } from "../composables/useModal";
-import Product from "../components/Product.vue";
+import Product from "../components/ProductModal.vue";
 import ProductModal from "../components/Modal.vue";
 import { currentPrice, product, generated } from "../composables/productModal";
 

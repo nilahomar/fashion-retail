@@ -1,7 +1,7 @@
 <script lang="ts">
-import Tabs from "./Tabs.vue";
-import Tab from "./Tab.vue";
-import { defineComponent, ref } from "vue";
+import Tabs from "./TabsModal.vue";
+import Tab from "./TabModal.vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "ModalViewer",
@@ -15,7 +15,6 @@ export default defineComponent({
       currentSizeLocal: this.currentSize,
       currentColorLocal: this.currentColor,
       currentImageSrc: "",
-      // slides: this.product,
       currentIndex: 0,
       selectedSizeLocalIndex: null,
       selectedColorLocalIndex: null,
@@ -26,6 +25,8 @@ export default defineComponent({
     close() {
       this.$emit("close");
     },
+
+    // set State for color for selecting a product
     onClickOfColor(index: number) {
       this.currentPriceLocal =
         this.product.prices[index].regular +
@@ -36,18 +37,26 @@ export default defineComponent({
       this.selectedColorLocalIndex = index;
       this.reInitializeColorAndSize();
     },
+
+    // set State for color for selecting a product
     onClickOfSize(index: number) {
       this.currentSizeLocal = this.product.sizes[index].label + "";
       this.selectedSizeLocalIndex = index;
       this.reInitializeColorAndSize();
     },
+
+    // slide to choose between different variations
     goToSlide(index) {
       this.currentIndex = index;
     },
+
+    // set the image in the details tabs
     reInitializeColorAndSize() {
       this.currentImageSrc = this.product.gallery[this.currentIndex].src;
     }
   },
+
+  // show the price of the product on load
   mounted: function () {
     setTimeout(() => {
       this.onClickOfColor(0);
