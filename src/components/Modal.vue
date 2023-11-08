@@ -82,12 +82,12 @@ export default defineComponent({
           <div class="flex gap-4 w-full p-6">
             <div class="w-1/2">
               <div class="carousel">
-                <div class="slide" v-for="(item, index) in this.product.gallery" :key="index"
+                <div class="slide" v-for="(item, index) in this.product?.gallery" :key="index"
                   v-show="index === currentIndex">
                   <img :src="item.src" :alt="item.alt" :title="item.title" />
                 </div>
                 <div class="controls">
-                  <span class="circle" v-for="(item, index) in this.product.gallery" :key="index"
+                  <span class="circle" v-for="(item, index) in this.product?.gallery" :key="index"
                     @click="goToSlide(index)" :class="{ active: index === currentIndex }"></span>
                 </div>
               </div>
@@ -95,21 +95,21 @@ export default defineComponent({
 
             <div class="w-1/2 text-left">
               <div class="p-2">
-                <p class="font-bold mb-2">{{ product.name }}</p>
-                <h1 class="mb-4">{{ product.category }}</h1>
+                <p class="font-bold mb-2 name">{{ product?.name }}</p>
+                <h1 class="mb-4">{{ product?.category }}</h1>
                 <div class="flex justify-between items-center">
-                  <p class="mb-2 font-bold uppercase">{{ currentPriceLocal }}</p>
+                  <p class="mb-2 font-bold uppercase price">{{ currentPriceLocal }}</p>
                   <img src="../assets/images/s-oliver-logo.png" alt="logo" class="w-10">
                 </div>
               </div>
 
               <div class="w-full border-t" />
               <div class="p-2 group">
-                <p class="mb-2">
+                <p class="mb-2 color">
                   Color: <span class="font-bold">{{ currentColorLocal }}</span>
                 </p>
                 <div class="flex gap-2" id="colors">
-                  <button class="item border border-gray-100 hover:border-black rounded-full w-10 h-10 overflow-hidden"
+                  <button class="color-item item border border-gray-100 hover:border-black rounded-full w-10 h-10 overflow-hidden"
                     v-for="(color, index) in product.colors" :key="color.value"
                     :class="{ 'focus-custom': index === selectedColorLocalIndex }" @click="onClickOfColor(index)">
                     <img class="w-full h-full object-contain object-center" v-bind:src="color.swatchImagesLinks.flat" />
@@ -120,12 +120,12 @@ export default defineComponent({
               <div class="w-full border-b" />
 
               <div class="p-2 group">
-                <p class="mb-2">
+                <p class="mb-2 size">
                   Size: <span class="font-bold"> {{ currentSizeLocal }}</span>
                 </p>
                 <div class="item flex gap-2 flex-wrap text-center text-xs " id="sizes">
-                  <button class="border border-gray-100 hover:border-black w-10 py-1 px-2 bg-gray-100 rounded-xl"
-                    v-for="(size, index) in product.sizes" :key="size.value"
+                  <button class="size-item border border-gray-100 hover:border-black w-10 py-1 px-2 bg-gray-100 rounded-xl"
+                    v-for="(size, index) in product?.sizes" :key="size.value"
                     :class="{ 'focus-custom': index === selectedSizeLocalIndex }" @click="onClickOfSize(index)">
                     {{ size.label }}
                   </button>
@@ -139,27 +139,27 @@ export default defineComponent({
                 <Tab title="Details">
                   <div>
                     <p class="font-bold mb-2">Product Details</p>
-                    <div v-html="product.description" />
+                    <div v-html="product?.description" />
                   </div>
                 </Tab>
                 <Tab title="Fit">
                   <p class="font-bold">Fit</p>
-                  <div v-html="product.fitDescription" />
+                  <div v-html="product?.fitDescription" />
                 </Tab>
                 <Tab title="Material & Care instructions">
                   <div class="flex justify-between mb-4 max-w-md">
-                    <div v-html="product.materialDescription" />
+                    <div v-html="product?.materialDescription" />
                   </div>
                   <div class="w-full border-t" />
                   <div class="mt-4">
                     <p class="font-bold mb-2">Care instructions</p>
                     <div class="flex justify-between max-w-md">
-                      <div v-html="product.careInstructions" />
+                      <div v-html="product?.careInstructions" />
                     </div>
                   </div>
                 </Tab>
                 <Tab title="Sustainability">
-                  <div v-html="product.sustainabilityInstructions" />
+                  <div v-html="product?.sustainabilityInstructions" />
                 </Tab>
               </Tabs>
             </div>
