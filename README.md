@@ -41,4 +41,14 @@ npm run test:unit
 
 ## Docker
 
-ToDo
+Run the following command to build the docker image
+
+```sh
+docker build -t fashion-retail .
+```
+
+```sh
+docker run -d -p 8080:80 fashion-retail
+```
+
+Now we will be able to access the app on **http://localhost:80**
